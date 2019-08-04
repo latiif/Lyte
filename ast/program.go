@@ -1,7 +1,5 @@
 package ast
 
-import "strconv"
-
 const maxStates = 255
 
 type Program struct {
@@ -24,6 +22,7 @@ func (program *Program) getStateByName(name string) State {
 	return program.states[name]
 }
 
+//AddRule appends a rule to the program
 func (program *Program) AddRule(frState, toState, frChar, toChar string, dir string) {
 	instruction := NewTapeInstruction(toChar, dir)
 	action := NewAction(toState, instruction)
@@ -31,14 +30,28 @@ func (program *Program) AddRule(frState, toState, frChar, toChar string, dir str
 	state.Mappings[frChar] = action
 }
 
-func NewProgram(init, accept string) *Program {
-	return &Program{"", make(map[string]State, maxStates), init, accept, init}
+// AddName updates name information about the program
+func (program *Program) AddName(name string) {
+	program.name = name
 }
 
-func (program *Program) Display() string {
-	return strconv.Itoa(len(program.states["q1"].Mappings))
+// AddInitState updates initial state of the program
+func (program *Program) AddInitState(init string) {
+	program.name = init
+	program.currState = init
 }
 
+// AddAcceptState updates the accpeting state of the program
+func (program *Program) AddAcceptState(accept string) {
+	program.acceptState = accept
+}
+
+//NewProgram instantiates a new program with default values for init and accept states
+func NewProgram() *Program {
+	return &Program{"UNNAMED", make(map[string]State, maxStates), "q0", "qAccept", "q0"}
+}
+
+// Execute executes the program against a tape, and returns whether the input is accepted
 func (program *Program) Execute(tape *Tape) bool {
 	for program.currState != program.acceptState {
 		symbol := tape.Read()
