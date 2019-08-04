@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"./ast"
@@ -9,9 +10,9 @@ import (
 )
 
 func main() {
-	//filename := os.Args[1]
+	filename := os.Args[1]
 
-	program, parsed := parse.Parse("decimaltobinary.lyte")
+	program, parsed := parse.Parse(filename)
 
 	if parsed {
 		fmt.Println("Program successfully parsed!")
