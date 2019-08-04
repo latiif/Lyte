@@ -4,7 +4,7 @@ import (
 	"../ast"
 )
 
-func CreateProgram() ast.Program {
+func CreateProgram() *ast.Program {
 	program := ast.NewProgram("q0", "qAccept")
 	program.AddRule("q0", "q0", "0", "0", ">")
 	program.AddRule("q0", "q1", "1", "1", ">")
@@ -13,7 +13,7 @@ func CreateProgram() ast.Program {
 	program.AddRule("q2", "q1", "0", "0", ">")
 	program.AddRule("q2", "q2", "1", "1", ">")
 
-	program.AddRule("q0", "qAccept", "_", "_", "_")
+	program.AddRule("q0", "qAccept", "_", "_", "-")
 
 	return program
 }

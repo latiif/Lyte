@@ -31,8 +31,8 @@ func (program *Program) AddRule(frState, toState, frChar, toChar string, dir str
 	state.Mappings[frChar] = action
 }
 
-func NewProgram(init, accept string) Program {
-	return Program{"", make(map[string]State, maxStates), init, accept, init}
+func NewProgram(init, accept string) *Program {
+	return &Program{"", make(map[string]State, maxStates), init, accept, init}
 }
 
 func (program *Program) Display() string {

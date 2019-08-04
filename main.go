@@ -9,12 +9,13 @@ import (
 
 func main() {
 
-	p := test.CreateProgram()
+	p := test.CreateProgramByParse()
 
-	tape := ast.NewTape(255, []string{"1", "1", "0"})
+	tape := ast.NewTape(255, []string{"0", "1", "0"})
 
 	ok := p.Execute(tape)
 
 	fmt.Println(ok)
 	fmt.Println(tape.GetRepresentation())
+
 }
