@@ -61,5 +61,10 @@ func (tape *Tape) ExecuteTapeInstruction(instruction TapeInstruction) {
 }
 
 func (tape *Tape) GetRepresentation() string {
-	return strings.Replace(strings.Join(tape.contents[:], ""), "_", "", -1)
+	representation := strings.Replace(strings.Join(tape.contents[:], ""), "_", "", -1)
+	if representation == "" {
+		return "{EMPTY}"
+	} else {
+		return representation
+	}
 }

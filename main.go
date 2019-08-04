@@ -2,20 +2,36 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
 	"./ast"
-	"./test"
+	"./parse"
 )
 
 func main() {
+	filename := os.Args[1]
 
-	p := test.CreateProgramByParse()
+	program, parsed := parse.Parse(filename)
 
-	tape := ast.NewTape(255, []string{"0", "1", "0"})
+	if parsed {
+		fmt.Println("Program successfully parsed!")
+	} else {
+		fmt.Println("Invalid Lyte code\nHalting.")
+		return
+	}
 
-	ok := p.Execute(tape)
+	fmt.Print("Enter Tape Contents: ")
+	var rawTape string
+	fmt.Scanln(&rawTape)
+	tape := ast.NewTape(255, strings.Split(rawTape, ""))
+	accepted := program.Execute(tape)
 
-	fmt.Println(ok)
-	fmt.Println(tape.GetRepresentation())
+	if accepted {
+		fmt.Println("Accepted")
+	} else {
+		fmt.Println("Rejected")
+	}
 
+	fmt.Println("Tape: ", tape.GetRepresentation())
 }
