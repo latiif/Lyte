@@ -5,8 +5,7 @@ import (
 )
 
 func CreateProgram() ast.Program {
-	tape := ast.NewTape(255, []string{"1", "1", "1"})
-	program := ast.NewProgram("q0", "qAccept", *tape)
+	program := ast.NewProgram("q0", "qAccept")
 	program.AddRule("q0", "q0", "0", "0", ">")
 	program.AddRule("q0", "q1", "1", "1", ">")
 	program.AddRule("q1", "q2", "0", "0", ">")

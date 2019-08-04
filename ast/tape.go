@@ -58,5 +58,5 @@ func (tape *Tape) ExecuteTapeInstruction(instruction TapeInstruction) {
 }
 
 func (tape *Tape) GetRepresentation() string {
-	return strings.Join(tape.contents[:], ",")
+	return strings.Join(tape.contents[:], "")
 }

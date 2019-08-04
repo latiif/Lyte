@@ -10,7 +10,6 @@ type Program struct {
 	initState   string
 	acceptState string
 	currState   string
-	tape        Tape
 }
 
 func (program *Program) getStateByName(name string) State {
@@ -32,27 +31,27 @@ func (program *Program) AddRule(frState, toState, frChar, toChar string, dir str
 	state.Mappings[frChar] = action
 }
 
-func NewProgram(init, accept string, tape Tape) Program {
-	return Program{"", make(map[string]State, maxStates), init, accept, init, tape}
+func NewProgram(init, accept string) Program {
+	return Program{"", make(map[string]State, maxStates), init, accept, init}
 }
 
 func (program *Program) Display() string {
 	return strconv.Itoa(len(program.states["q1"].Mappings))
 }
 
-func (program *Program) Execute() (bool, string) {
+func (program *Program) Execute(tape *Tape) bool {
 	for program.currState != program.acceptState {
-		symbol := program.tape.Read()
+		symbol := tape.Read()
 		action, ok := program.getStateByName(program.currState).Mappings[symbol]
 		if !ok {
 			//INVALID STATE
-			return false, program.tape.GetRepresentation()
+			return false
 		}
 		nextState, instruction := action.ExtractInformation()
-		program.tape.ExecuteTapeInstruction(instruction)
+		tape.ExecuteTapeInstruction(instruction)
 
 		program.currState = nextState
 	}
 
-	return true, program.tape.GetRepresentation()
+	return true
 }
