@@ -10,3 +10,7 @@ func NewTapeInstruction(stringToWrite, headDirection string) TapeInstruction {
 		stringToWrite: stringToWrite,
 		headDirection: headDirection}
 }
+
+func (tapeInstruction *TapeInstruction) GetInstruction() (string, string) {
+	return tapeInstruction.stringToWrite, tapeInstruction.headDirection
+}

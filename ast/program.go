@@ -10,6 +10,16 @@ type Program struct {
 	currState   string
 }
 
+// GetStatesCopy clones the states of the program
+func (program *Program) GetStatesCopy() map[string]State {
+	statesClone := make(map[string]State, len(program.states))
+	for k, v := range program.states {
+		statesClone[k] = v
+	}
+
+	return statesClone
+}
+
 func (program *Program) getStateByName(name string) State {
 
 	_, ok := program.states[name]
