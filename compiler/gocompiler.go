@@ -13,15 +13,13 @@ func GoCompile(program *ast.Program) {
 	for _, v := range states {
 		fmt.Println(v.Name, ":")
 		for chRead, action := range v.Mappings {
-			fmt.Println("if head() == \"", chRead, "\" {")
+			fmt.Print("if head() == \"", chRead, "\" {\n")
 			chWrite, dir := action.GetInstruction()
 			nextState := action.GetNextState()
 
-			switch chWrite {
-			case "_":
-				continue
-			default:
-				fmt.Println("\twrite(\"", chWrite, "\")")
+
+			if chWrite != "_" {
+				fmt.Print("\twrite(\"",chWrite,"\")\n")
 			}
 
 			switch dir {

@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"./ast"
+	"./compiler"
 	"./parse"
 )
 
@@ -34,4 +35,6 @@ func main() {
 	}
 
 	fmt.Println("Tape: ", tape.GetRepresentation())
+
+	//compiler.GoCompile(program)
 }
