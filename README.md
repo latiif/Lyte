@@ -1,5 +1,6 @@
 # Lyte
 [![](https://img.shields.io/github/languages/top/llusx/Lyte.svg)]()
+[![Go Report Card](https://goreportcard.com/badge/github.com/llusx/Lyte)](https://goreportcard.com/report/github.com/llusx/Lyte)
 [![](https://img.shields.io/github/last-commit/llusx/Lyte)]()
 [![](https://img.shields.io/github/license/llusx/Lyte)]()
 [![](https://img.shields.io/maintenance/yes/2019)]()
