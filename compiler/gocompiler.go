@@ -1,7 +1,9 @@
 package compiler
 
 import (
-	"fmt"
+	"bytes"
+	"os"
+	"text/template"
 
 	"../ast"
 )
@@ -10,29 +12,40 @@ import (
 func GoCompile(program *ast.Program) {
 	states := program.GetStatesCopy()
 
+	var buffer bytes.Buffer
+
 	for _, v := range states {
-		fmt.Println(v.Name, ":")
+		buffer.WriteString("\n" + v.Name + ":")
 		for chRead, action := range v.Mappings {
-			fmt.Print("if head() == \"", chRead, "\" {\n")
+			buffer.WriteString("\nif head() == \"" + chRead + "\" {\n")
 			chWrite, dir := action.GetInstruction()
 			nextState := action.GetNextState()
 
-
 			if chWrite != "_" {
-				fmt.Print("\twrite(\"",chWrite,"\")\n")
+				buffer.WriteString("\twrite(\"" + chWrite + "\")\n")
 			}
 
 			switch dir {
 			case ">":
-				fmt.Println("\tmoveright()")
+				buffer.WriteString("\tmoveright()")
 			case "<":
-				fmt.Println("\tmoveleft()")
+				buffer.WriteString("\tmoveleft()")
 			}
 
-			fmt.Println("\tgoto ", nextState)
+			buffer.WriteString("\n\tgoto " + nextState)
 
-			fmt.Println("}")
+			buffer.WriteString("\n}")
 		}
 	}
+
+	tmpl, _ := template.ParseFiles("./compiler/go.lyte.txt")
+
+	type info struct {
+		Name        string
+		Code        string
+		AcceptState string
+	}
+
+	tmpl.Execute(os.Stdout, info{"Name", buffer.String(), program.GetAcceptState()})
 
 }

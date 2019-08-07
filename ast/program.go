@@ -56,6 +56,11 @@ func (program *Program) AddAcceptState(accept string) {
 	program.acceptState = accept
 }
 
+// GetAcceptState returns the accept state
+func (program *Program) GetAcceptState() string {
+	return program.acceptState
+}
+
 //NewProgram instantiates a new program with default values for init and accept states
 func NewProgram() *Program {
 	return &Program{"UNNAMED", make(map[string]State, maxStates), "q0", "qAccept", "q0"}
