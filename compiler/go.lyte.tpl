@@ -37,8 +37,12 @@ func moveleft(){
 }
 
 func execute(){
+var head_ string
+goto {{.InitState}}
+
     {{.Code}}
 
+qReject
 {{.AcceptState}}:
 	return
 }

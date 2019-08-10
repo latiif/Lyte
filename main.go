@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 
@@ -9,6 +10,9 @@ import (
 	"./compiler"
 	"./parse"
 )
+
+// Debug tells whether the program in Debug mode
+var Debug bool
 
 func main() {
 	filename := os.Args[1]
@@ -36,5 +40,5 @@ func main() {
 
 	fmt.Println("Tape: ", tape.GetRepresentation())
 
-	//compiler.GoCompile(program)
+	ioutil.WriteFile("out.golyte", compiler.GoCompile(program), 0644)
 }

@@ -1,5 +1,7 @@
 package ast
 
+import "fmt"
+
 const maxStates = 255
 
 type Program struct {
@@ -47,7 +49,7 @@ func (program *Program) AddName(name string) {
 
 // AddInitState updates initial state of the program
 func (program *Program) AddInitState(init string) {
-	program.name = init
+	program.initState = init
 	program.currState = init
 }
 
@@ -61,20 +63,51 @@ func (program *Program) GetAcceptState() string {
 	return program.acceptState
 }
 
+// GetInitState returns the init state
+func (program *Program) GetInitState() string {
+	return program.initState
+}
+
 //NewProgram instantiates a new program with default values for init and accept states
 func NewProgram() *Program {
 	return &Program{"UNNAMED", make(map[string]State, maxStates), "q0", "qAccept", "q0"}
 }
 
 // Execute executes the program against a tape, and returns whether the input is accepted
-func (program *Program) Execute(tape *Tape) bool {
+func (program *Program) Execute(tape *Tape, flags ...string) bool {
+
+	currState := false
+	tapeState := false
+
+	for _, v := range flags {
+		if v == "CURRENT_STATE" {
+			currState = true
+			continue
+		}
+		if v == "TAPE_STATE" {
+			tapeState = true
+			continue
+		}
+	}
+
 	for program.currState != program.acceptState {
+
 		symbol := tape.Read()
+
+		if currState {
+			fmt.Println("DEBUG:", "current state:", program.currState)
+		}
+
+		if tapeState {
+			fmt.Println(tape.GetRepresentation())
+		}
+
 		action, ok := program.getStateByName(program.currState).Mappings[symbol]
 		if !ok {
 			//INVALID STATE
 			return false
 		}
+
 		nextState, instruction := action.ExtractInformation()
 		tape.ExecuteTapeInstruction(instruction)
 
