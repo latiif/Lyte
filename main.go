@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -15,14 +14,29 @@ import (
 var Debug bool
 
 func main() {
-	filename := os.Args[1]
+
+	if len(os.Args) > 1 {
+		cliMode()
+	} else {
+		interactiveMode()
+	}
+
+}
+
+func interactiveMode() {
+
+	fmt.Println(`🥳 Interactive Mode
+Enter the filename of your Lytecode:`)
+
+	var filename string
+	fmt.Scanln(&filename)
 
 	program, parsed := parse.Parse(filename)
 
 	if parsed {
-		fmt.Println("Program successfully parsed!")
+		fmt.Println("✔️ Program successfully parsed!")
 	} else {
-		fmt.Println("Invalid Lyte code\nHalting.")
+		fmt.Println("✋ Invalid Lyte code\nHalting.")
 		return
 	}
 
@@ -33,12 +47,24 @@ func main() {
 	accepted := program.Execute(tape)
 
 	if accepted {
-		fmt.Println("Accepted")
+		fmt.Println("✔️ Accepted")
 	} else {
-		fmt.Println("Rejected")
+		fmt.Println("✋ Rejected")
 	}
 
 	fmt.Println("Tape: ", tape.GetRepresentation())
 
-	ioutil.WriteFile("out.golyte", compiler.GoCompile(program), 0644)
+}
+
+func cliMode() {
+	filename := os.Args[1]
+
+	program, parsed := parse.Parse(filename)
+
+	if !parsed {
+		fmt.Println("Invalid Lyte code!\nAborting.")
+		return
+	}
+
+	os.Stdout.Write(compiler.GoCompile(program))
 }

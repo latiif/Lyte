@@ -42,7 +42,6 @@ goto {{.InitState}}
 
     {{.Code}}
 
-qReject
 {{.AcceptState}}:
 	return
 }

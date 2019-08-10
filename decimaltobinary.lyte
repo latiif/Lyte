@@ -213,21 +213,21 @@ setrest1,1
 setrest1,1,>
  
 setrest0,_
-continue,0,<
+continue_,0,<
  
 setrest1,_
-continue,1,<
+continue_,1,<
  
-// continue
-continue,0
-continue,0,<
+// continue_
+continue_,0
+continue_,0,<
  
-continue,1
-continue,1,<
+continue_,1
+continue_,1,<
  
-continue,_
-continue2,_,<
+continue_,_
+continue_2,_,<
  
 // delimiter
-continue2,_
+continue_2,_
 halve,0,<
