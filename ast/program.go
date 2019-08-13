@@ -47,6 +47,11 @@ func (program *Program) AddName(name string) {
 	program.name = name
 }
 
+// GetName getter for name field
+func (program *Program) GetName() string {
+	return program.name
+}
+
 // AddInitState updates initial state of the program
 func (program *Program) AddInitState(init string) {
 	program.initState = init

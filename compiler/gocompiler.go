@@ -2,10 +2,19 @@ package compiler
 
 import (
 	"bytes"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"os/exec"
 	"text/template"
 
 	"../ast"
 )
+
+func commandExists(cmd string) bool {
+	_, err := exec.LookPath(cmd)
+	return err == nil
+}
 
 // GoCompile transpilers the ast representation into Go Code
 func GoCompile(program *ast.Program) []byte {
@@ -32,6 +41,16 @@ func GoCompile(program *ast.Program) []byte {
 		buffer.String(),
 		program.GetInitState(),
 		program.GetAcceptState()})
+
+	if commandExists("go") {
+
+		os.Mkdir(fmt.Sprintf("./%s", program.GetName()), os.ModePerm)
+		ioutil.WriteFile(fmt.Sprintf("./%s/main.go", program.GetName()), compiled.Bytes(), 0644)
+
+		cmd := exec.Command("go", "build")
+		cmd.Dir = fmt.Sprintf("./%s", program.GetName())
+		cmd.Run()
+	}
 
 	return compiled.Bytes()
 
