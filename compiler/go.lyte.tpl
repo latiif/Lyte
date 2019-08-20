@@ -41,9 +41,10 @@ var head_ string
 goto {{.InitState}}
 
     {{.Code}}
-
-{{.AcceptState}}:
-	return
+{{ if not .AcceptStateMentioned }}
+	{{.AcceptState}}:
+		return
+{{ end }}
 }
 
 type Tape struct {

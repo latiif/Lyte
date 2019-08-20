@@ -22,17 +22,21 @@ func GoCompile(program *ast.Program) []byte {
 
 	var buffer bytes.Buffer
 
+	isAcceptingState := false
+
 	for _, v := range states {
-		buffer.WriteString(parseState(v))
+		go buffer.WriteString(parseState(v))
+		isAcceptingState = isAcceptingState || (program.GetAcceptState() == v.Name)
 	}
 
 	tmpl, _ := template.ParseFiles("./compiler/go.lyte.tpl")
 
 	type info struct {
-		Name        string
-		Code        string
-		InitState   string
-		AcceptState string
+		Name                 string
+		Code                 string
+		InitState            string
+		AcceptState          string
+		AcceptStateMentioned bool
 	}
 
 	var compiled bytes.Buffer
@@ -40,7 +44,9 @@ func GoCompile(program *ast.Program) []byte {
 		"Name",
 		buffer.String(),
 		program.GetInitState(),
-		program.GetAcceptState()})
+		program.GetAcceptState(),
+		isAcceptingState,
+	})
 
 	if commandExists("go") {
 
