@@ -28,4 +28,4 @@ Given the path to your code is valid, Lyte will do do the following.
 
 ## Docker Container
 You can run *Lyte* as a container by pulling 
-`docker push latiif/lyte`
+`docker pull latiif/lyte`
