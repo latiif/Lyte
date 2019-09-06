@@ -4,6 +4,7 @@
 [![](https://img.shields.io/github/last-commit/llusx/Lyte)]()
 [![](https://img.shields.io/github/license/llusx/Lyte)]()
 [![](https://img.shields.io/maintenance/yes/2019)]()
+[![](https://img.shields.io/docker/pulls/latiif/lyte)]()
 
 A Lightweight Turing Machine Code Interpreter written in Go
 ---
@@ -23,3 +24,8 @@ Given the path to your code is valid, Lyte will do do the following.
 + Execute the program.
 + Inform you whether the machine halted on an accepting state.
 + Display a representation of the tape after halting.
+
+
+## Docker Container
+You can run *Lyte* as a container by pulling 
+`docker push latiif/lyte`
